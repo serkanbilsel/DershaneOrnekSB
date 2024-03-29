@@ -1,0 +1,55 @@
+﻿@model Exam
+
+<h1>Soruları Sınava Ekle</h1>
+
+<p>Sınava sorular ekleyebilirsiniz.</p>
+
+@using (Html.BeginForm("AddQuestions", "Exam", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id) <!-- Sınav ID'sini gizli bir alan olarak göndermek -->
+    <!-- Yeni sorular eklemek için form alanları -->
+    <h2>Yeni Soru Ekle</h2>
+    <div class="form-group">
+        <label for="questionText">Soru Metni:</label>
+        <input type="text" id="questionText" name="questions[0].Text" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="questionType">Soru Türü:</label>
+        <select id="questionType" name="questions[0].IsMultipleChoice" class="form-control" required>
+            <option value="true">Seçmeli</option>
+            <option value="false">Açık</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="correctAnswer">Doğru Cevap:</label>
+        <input type="text" id="correctAnswer" name="questions[0].CorrectAnswer" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="explanation">Açıklama:</label>
+        <textarea id="explanation" name="questions[0].Explanation" class="form-control"></textarea>
+    </div>
+
+    <!-- Birden fazla soru eklemek için buton -->
+    <button type="button" id="addQuestionButton" class="btn btn-primary">Yeni Soru Ekle</button>
+
+    <!-- Formu göndermek için submit butonu -->
+    <button type="submit" class="btn btn-success">Kaydet</button>
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#addQuestionButton').click(function () {
+                // Yeni soru eklemek için form alanlarını kopyala ve sayıları güncelle
+                var index = $('input[name^="questions"]').length; // Formdaki mevcut soru sayısını al
+                var newQuestion = $('#questionText').closest('.form-group').clone(); // İlk soru form alanlarını kopyala
+                newQuestion.find('input, select, textarea').val(''); // Kopyalanan form alanlarını temizle
+                newQuestion.find('input').attr('name', 'questions[' + index + '].Text'); // Input alanlarının isimlerini güncelle
+                newQuestion.find('select').attr('name', 'questions[' + index + '].IsMultipleChoice'); // Select alanlarının isimlerini güncelle
+                newQuestion.find('textarea').attr('name', 'questions[' + index + '].Explanation'); // Textarea alanlarının isimlerini güncelle
+                newQuestion.find('input[name^="questions"]').removeAttr('value'); // Yeni eklenen sorunun alanlarını temizle
+                newQuestion.insertAfter($('#addQuestionButton').closest('.form-group')); // Yeni soru form alanlarını ekle
+            });
+        });
+    </script>
+}

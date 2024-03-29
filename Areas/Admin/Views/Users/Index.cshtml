@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DershaneOrnekSB.Entities.User>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <title>Index</title>
+    <!-- Bootstrap CSS -->
+
+    <br />
+    <br />
+    <br />
+  
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Kayıtlı Kullanıcılar </h2>
+        <hr />
+        <p class="text-center">
+            <a class="btn btn-primary" asp-action="Create">Yeni Ekle</a>
+            <br />
+            <br />
+            <span class="btn btn-danger">Sadece Yönetici Eklemek için Kullanın</span>
+        </p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Password</th>
+                        <th>Active</th>
+                        <th>Admin</th>
+                        <th>User Guid</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Surname</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Password</td>
+                            <td>@item.IsActive</td>
+                            <td>@item.IsAdmin</td>
+                           
+                            <td>
+                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+</html>
